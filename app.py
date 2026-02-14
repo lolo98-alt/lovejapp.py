@@ -1,17 +1,10 @@
 import streamlit as st
 import random
 
-# --- 1. إعدادات الصور (استبدل الروابط أدناه بروابط صوركم الشخصية) ---
-# ارفع صورك على imgbb.com وانسخ "الرابط المباشر" الذي ينتهي بـ .jpg أو .png
-# IMG_ENGAGEMENT = "https://i.ibb.co/fV26rKx7/11.jpg" # صورة الخطوبة
-# IMG_WEDDING = "https://i.ibb.co/93fkyd9N/22.jpg"       # صورة العرس
-# IMG_FAMILY = "https://i.ibb.co/jZ3dDnmH/33.jpg"         # صورة العائلة
-
 # --- 1. إعدادات الصور (تحميل من GitHub repo - مجلد assets) ---
 IMG_ENGAGEMENT = "assets/engagement.jpg"
 IMG_WEDDING = "assets/wedding.jpg"
 IMG_FAMILY = "assets/family.jpg"
-
 
 st.set_page_config(page_title="رحلة الخمسين خطوة", page_icon="👣", layout="centered")
 
@@ -58,7 +51,6 @@ if 'steps_data' not in st.session_state:
     ]
     st.session_state.counter = 0
     st.session_state.game_started = False
-    st.session_state.current_text = "ابدأ الخطوة الأولى 👣"
 
 # --- 3. التصميم (CSS) ---
 st.markdown("""
@@ -66,19 +58,12 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
     html, body, [class*="css"] { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
     .stApp { background: linear-gradient(to bottom, #ffffff, #fff5f7); }
-    .stButton>button {
-        width: 100%; min-height: 250px; background: white;
-        color: #444; font-size: 24px !important; border-radius: 30px;
-        border: 4px solid #ff4b60; box-shadow: 0 10px 20px rgba(255,75,96,0.1);
-        padding: 20px; transition: 0.3s;
-    }
-    .stButton>button:hover { border-color: #d63384; transform: translateY(-5px); }
     .welcome-box { text-align: center; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     .step-header { text-align: center; color: #ff4b60; font-size: 22px; font-weight: bold; margin-bottom: 10px; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 4. واجهة الترحيب (الخطوبة) ---
+# --- 4. واجهة الترحيب ---
 if not st.session_state.game_started:
     st.markdown("<div class='welcome-box'>", unsafe_allow_html=True)
     st.image(IMG_ENGAGEMENT, use_container_width=True)
@@ -89,21 +74,57 @@ if not st.session_state.game_started:
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
-# --- 5. واجهة اللعبة (الخمسين خطوة) ---
+# --- 5. واجهة اللعبة مع تنقل ---
 elif st.session_state.counter < 50:
-    st.markdown(f"<div class='step-header'>الخطوة رقم {st.session_state.counter + 1} من 50</div>", unsafe_allow_html=True)
-    st.progress((st.session_state.counter + 1) / 50)
-    
-    # مفاجأة المنتصف (صورة العرس)
-    if st.session_state.counter == 25:
-        st.image(IMG_WEDDING, caption="نصف الطريق.. تذكر أننا دائماً نصل معاً ❤️", use_container_width=True)
 
-    if st.button(st.session_state.current_text):
-        st.session_state.current_text = st.session_state.steps_data[st.session_state.counter]
-        st.session_state.counter += 1
-        st.rerun()
+    total_steps = len(st.session_state.steps_data)
+    current_index = st.session_state.counter
 
-# --- 6. واجهة الختام (العائلة) ---
+    st.markdown(
+        f"<div class='step-header'>الخطوة رقم {current_index + 1} من 50</div>",
+        unsafe_allow_html=True
+    )
+
+    st.progress((current_index + 1) / total_steps)
+
+    if current_index == 25:
+        st.image(
+            IMG_WEDDING,
+            caption="نصف الطريق.. تذكر أننا دائماً نصل معاً ❤️",
+            use_container_width=True
+        )
+
+    st.markdown(
+        f"""
+        <div style='
+            background:white;
+            padding:30px;
+            border-radius:30px;
+            border:4px solid #ff4b60;
+            box-shadow:0 10px 20px rgba(255,75,96,0.1);
+            font-size:24px;
+            text-align:center;
+            min-height:200px;
+        '>
+            {st.session_state.steps_data[current_index]}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("⬅ السابق", disabled=(current_index == 0)):
+            st.session_state.counter -= 1
+            st.rerun()
+
+    with col2:
+        if st.button("التالي ➡"):
+            st.session_state.counter += 1
+            st.rerun()
+
+# --- 6. واجهة الختام ---
 else:
     st.markdown("<h2 style='text-align:center; color:#d63384;'>حاضرنا الجميل.. 👨‍👩‍👧‍👦</h2>", unsafe_allow_html=True)
     st.image(IMG_FAMILY, use_container_width=True)
@@ -114,6 +135,7 @@ else:
             <span style='font-size: 28px;'>זמן חיבוק באהבה ❤️</span>
         </div>
     """, unsafe_allow_html=True)
+
     if st.button("تكرار الرحلة؟"):
         st.session_state.clear()
         st.rerun()
