@@ -68,7 +68,7 @@ if not st.session_state.game_started:
     st.markdown("<div class='welcome-box'>", unsafe_allow_html=True)
     st.image(IMG_ENGAGEMENT, use_container_width=True)
     st.markdown("<h2 style='color:#ff4b60;'>مرحباً بكم في رحلة الخمسين خطوة 💍</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size:18px;'>'بهذا اليوم بدأ كل شيء بكلمة نعم.. واليوم نحن هنا لنؤكد أن تلك الكلمة كانت أجمل اختيار في حياتي.'</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:18px;'>'بهذا اليوم بدأ كل شيء بكلمة نعم.. واليوم نحن هنا لنؤكد أن تلك الكلمة كانت أجمل اختيار في حياتنا .'</p>", unsafe_allow_html=True)
     if st.button("انطلاق 🚀"):
         st.session_state.game_started = True
         st.rerun()
