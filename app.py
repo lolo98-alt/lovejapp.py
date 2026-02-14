@@ -3,9 +3,15 @@ import random
 
 # --- 1. إعدادات الصور (استبدل الروابط أدناه بروابط صوركم الشخصية) ---
 # ارفع صورك على imgbb.com وانسخ "الرابط المباشر" الذي ينتهي بـ .jpg أو .png
-IMG_ENGAGEMENT = "https://i.ibb.co/fV26rKx7/11.jpg" # صورة الخطوبة
-IMG_WEDDING = "https://i.ibb.co/93fkyd9N/22.jpg"       # صورة العرس
-IMG_FAMILY = "https://i.ibb.co/jZ3dDnmH/33.jpg"         # صورة العائلة
+# IMG_ENGAGEMENT = "https://i.ibb.co/fV26rKx7/11.jpg" # صورة الخطوبة
+# IMG_WEDDING = "https://i.ibb.co/93fkyd9N/22.jpg"       # صورة العرس
+# IMG_FAMILY = "https://i.ibb.co/jZ3dDnmH/33.jpg"         # صورة العائلة
+
+# --- 1. إعدادات الصور (تحميل من GitHub repo - مجلد assets) ---
+IMG_ENGAGEMENT = "assets/engagement.jpg"
+IMG_WEDDING = "assets/wedding.jpg"
+IMG_FAMILY = "assets/family.jpg"
+
 
 st.set_page_config(page_title="رحلة الخمسين خطوة", page_icon="👣", layout="centered")
 
